@@ -85,7 +85,7 @@ public class ParqueaderoController {
                 resSuccess.add(body.codParqueadero);
             }
             else{
-                resFail.add(body.codParqueadero+" - "+res.getBody().get("response"));
+                resFail.add(body.nombre+" - "+res.getBody().get("response"));
             }
         }
         
