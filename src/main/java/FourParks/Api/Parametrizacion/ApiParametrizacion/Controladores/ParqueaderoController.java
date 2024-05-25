@@ -39,7 +39,7 @@ class ParqueaderoCambioInterface {
 
 @RestController
 @CrossOrigin
-@RequestMapping("/Parqueadero")
+@RequestMapping("/parqueadero")
 public class ParqueaderoController {
 
     @Autowired
@@ -89,6 +89,6 @@ public class ParqueaderoController {
             }
         }
         
-        return ResponseEntity.ok().body(Map.of("response", "Se ha actualizado Con Exito!"));
+        return ResponseEntity.ok().body(Map.of("success", resSuccess,"fail",resFail));
     }
 }
