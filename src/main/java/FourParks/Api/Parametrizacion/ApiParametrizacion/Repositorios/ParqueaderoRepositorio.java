@@ -38,6 +38,6 @@ public interface ParqueaderoRepositorio extends CrudRepository<Parqueadero,Strin
         double tarifaExtraMoto
     );
 
-    @Query(value = "select p.K_COD_PARQUEADERO,count(K_COD_RESERVA),p.N_NOMBRE,sum(Q_SUB_TOTAL) from RESERVA r ,Parqueadero p WHERE p.K_COD_PARQUEADERO = r.K_COD_PARQUEADERO and p.K_COD_GERENTE = ? GROUP BY p.K_COD_PARQUEADERO,p.N_NOMBRE",nativeQuery = true)
-    public Map<String,Object> crearReporteParqueaderos(String gerente);
+    @Query(value = "select p.K_COD_PARQUEADERO as codParqueadero,count(K_COD_RESERVA) as cantReservas,p.N_NOMBRE as nombre,sum(Q_SUB_TOTAL) as total from RESERVA r ,Parqueadero p WHERE p.K_COD_PARQUEADERO = r.K_COD_PARQUEADERO and p.K_COD_GERENTE = ? GROUP BY p.K_COD_PARQUEADERO,p.N_NOMBRE",nativeQuery = true)
+    public List<Map<String,Object>> crearReporteParqueaderos(String gerente);
 }
