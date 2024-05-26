@@ -1,5 +1,6 @@
 package FourParks.Api.Parametrizacion.ApiParametrizacion.Controladores;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +22,20 @@ public class ReportesController {
     public ParqueaderoRepositorio parqueaderoRepositorio;
     
     @GetMapping("/reporteParqueaderos/{gerente}")
-    public ResponseEntity<Map<String,Object>> generarReporteCiudad(@PathVariable("gerente") String gerente){
+    public ResponseEntity<List<Map<String,Object>>> generarReporteCiudad(@PathVariable("gerente") String gerente){
         try {
             return ResponseEntity.ok().body(parqueaderoRepositorio.crearReporteParqueaderos(gerente));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(Map.of("response",e.getMessage()));
+            return ResponseEntity.badRequest().body(List.of(Map.of("response",e.getMessage())));
         }
     }
 
+    @GetMapping("/reporteParqueadero/{parqueadero}")
+    public ResponseEntity<List<Map<String,Object>>> generarReporteParqueadero(@PathVariable("gerente") String gerente){
+        try {
+            return ResponseEntity.ok().body(parqueaderoRepositorio.crearReporteParqueaderos(gerente));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(List.of(Map.of("response",e.getMessage())));
+        }
+    }
 }
