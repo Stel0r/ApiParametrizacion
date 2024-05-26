@@ -31,9 +31,9 @@ public class ReportesController {
     }
 
     @GetMapping("/reporteParqueadero/{parqueadero}")
-    public ResponseEntity<List<Map<String,Object>>> generarReporteParqueadero(@PathVariable("gerente") String gerente){
+    public ResponseEntity<List<Map<String,Object>>> generarReporteParqueadero(@PathVariable("parqueadero") String parqueadero){
         try {
-            return ResponseEntity.ok().body(parqueaderoRepositorio.crearReporteParqueaderos(gerente));
+            return ResponseEntity.ok().body(parqueaderoRepositorio.crearReporteParqueadero(parqueadero));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(List.of(Map.of("response",e.getMessage())));
         }
