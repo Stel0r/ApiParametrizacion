@@ -67,7 +67,25 @@ public class ParqueaderoController {
     public ParqueaderoRepositorio parqueaderoRepositorio;
 
 
-
+    @PatchMapping("administrarParqueadero")
+    public ResponseEntity<Map<String,Object>> administrarParqueadero(@RequestBody ParqueaderoAdminInterface body){
+        try {
+            Parqueadero parqueadero = parqueaderoRepositorio.findById(body.codParqueadero).orElse(null);
+            if(parqueadero != null){
+                parqueadero.nombre = body.nombre;
+                parqueadero.direccion = body.direccion;
+                parqueadero.latitud = (float) body.latitud;
+                parqueadero.longitud = (float) body.longitud;
+                parqueaderoRepositorio.save(parqueadero);
+                return ResponseEntity.ok().body(Map.of("response", "Se ha actualizado Con Exito!"));
+            }else{
+                return ResponseEntity.badRequest().body(Map.of("response", "No se ha encontrado este parqueadero"));
+            }
+        } catch (Exception e) {
+                return ResponseEntity.badRequest().body(Map.of("response", e.getMessage()));
+        }
+        
+    }
 
     public ResponseEntity<Map<String, Object>> modificarParqueadero( ParqueaderoCambioInterface body) {
         try {
