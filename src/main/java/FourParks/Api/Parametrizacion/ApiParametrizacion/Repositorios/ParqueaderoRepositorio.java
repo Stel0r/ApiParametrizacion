@@ -41,6 +41,6 @@ public interface ParqueaderoRepositorio extends CrudRepository<Parqueadero,Strin
     @Query(value = "select p.K_COD_PARQUEADERO as codParqueadero,count(K_COD_RESERVA) as cantReservas,p.N_NOMBRE as nombre,sum(Q_SUB_TOTAL) as total from RESERVA r ,Parqueadero p WHERE p.K_COD_PARQUEADERO = r.K_COD_PARQUEADERO and F_FECHA_RESERVA >= (CURDATE() - INTERVAL 15 DAY) and p.K_COD_GERENTE = ? GROUP BY p.K_COD_PARQUEADERO,p.N_NOMBRE",nativeQuery = true)
     public List<Map<String,Object>> crearReporteParqueaderos(String gerente);
 
-    @Query(value = "",nativeQuery = true)
+    @Query(value = "select * from Parqueadero",nativeQuery = true)
     public List<Map<String,Object>> crearReporteParqueadero(String parqueadero);
 }
