@@ -15,7 +15,7 @@ public interface ParqueaderoRepositorio extends CrudRepository<Parqueadero,Strin
     public List<Parqueadero> findBycodCiudad(String ciudad);
 
 
-    @Procedure(name = "actualizar_parqueadero")
+    @Procedure("actualizar_parqueadero")
     public void actualizarParqueadero(
         String direccion,
         String codTarifa,

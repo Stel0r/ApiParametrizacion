@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.text.html.parser.Entity;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import FourParks.Api.Parametrizacion.ApiParametrizacion.Logica.Parqueadero;
 import FourParks.Api.Parametrizacion.ApiParametrizacion.Repositorios.ParqueaderoRepositorio;
 
 class ParqueaderoCambioInterface {
@@ -36,6 +39,24 @@ class ParqueaderoCambioInterface {
     public double tarifaExtraMoto;
 }
 
+class ParqueaderoAdminInterface {
+    public String direccion;
+    public String codTarifa;
+    public String nombre;
+    public String i24Hrs;
+    public String horaCierre;
+    public double latitud;
+    public String horaApertura;
+    public double longitud;
+    public String codGerente;
+    public String tipoParqueadero;
+    public String codParqueadero;
+    public String iFidelizacion;
+    public String ciudad;
+    public String iEstado;
+    public int numPuestos;
+}
+
 
 @RestController
 @CrossOrigin
@@ -45,8 +66,10 @@ public class ParqueaderoController {
     @Autowired
     public ParqueaderoRepositorio parqueaderoRepositorio;
 
-    @PatchMapping("actualizarParqueadero")
-    public ResponseEntity<Map<String, Object>> modificarParqueadero(@RequestBody ParqueaderoCambioInterface body) {
+
+
+
+    public ResponseEntity<Map<String, Object>> modificarParqueadero( ParqueaderoCambioInterface body) {
         try {
             parqueaderoRepositorio.actualizarParqueadero(
                     body.direccion,
