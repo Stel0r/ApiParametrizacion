@@ -8,6 +8,7 @@ import javax.swing.text.html.parser.Entity;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.HttpRequestHandler;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import FourParks.Api.Parametrizacion.ApiParametrizacion.Logica.Parqueadero;
 import FourParks.Api.Parametrizacion.ApiParametrizacion.Repositorios.ParqueaderoRepositorio;
+import FourParks.Api.Parametrizacion.ApiParametrizacion.Services.AuditoriaService;
+import jakarta.servlet.http.HttpServletRequest;
 
 class ParqueaderoCambioInterface {
     public String direccion;
@@ -66,9 +69,12 @@ public class ParqueaderoController {
     @Autowired
     public ParqueaderoRepositorio parqueaderoRepositorio;
 
+    @Autowired
+    public AuditoriaService auditoriaService;
+
 
     @PatchMapping("administrarParqueadero")
-    public ResponseEntity<Map<String,Object>> administrarParqueadero(@RequestBody ParqueaderoAdminInterface body){
+    public ResponseEntity<Map<String,Object>> administrarParqueadero(@RequestBody ParqueaderoAdminInterface body,HttpServletRequest http){
         try {
             Parqueadero parqueadero = parqueaderoRepositorio.findById(body.codParqueadero).orElse(null);
             if(parqueadero != null){
@@ -77,6 +83,7 @@ public class ParqueaderoController {
                 parqueadero.latitud = (float) body.latitud;
                 parqueadero.longitud = (float) body.longitud;
                 parqueaderoRepositorio.save(parqueadero);
+                auditoriaService.registrar("Modificar Parqueadero",body.codParqueadero, http.getRemoteAddr());
                 return ResponseEntity.ok().body(Map.of("response", "Se ha actualizado Con Exito!"));
             }else{
                 return ResponseEntity.badRequest().body(Map.of("response", "No se ha encontrado este parqueadero"));
@@ -117,12 +124,13 @@ public class ParqueaderoController {
     }
 
     @PatchMapping("actualizarParqueaderos")
-    public ResponseEntity<Map<String, Object>> modificarParqueaderos(@RequestBody List<ParqueaderoCambioInterface> bodyRequest) {
+    public ResponseEntity<Map<String, Object>> modificarParqueaderos(@RequestBody List<ParqueaderoCambioInterface> bodyRequest,HttpServletRequest http) {
         ArrayList<String> resSuccess = new ArrayList<String>() ;
         ArrayList<String> resFail = new ArrayList<String>() ;
         for(ParqueaderoCambioInterface body : bodyRequest){
             ResponseEntity<Map<String,Object>> res = modificarParqueadero(body);
             if(res.getBody().get("response").equals((String)"Se ha actualizado Con Exito!")){
+                auditoriaService.registrar("Modificar Parqueadero", body.codParqueadero, http.getRemoteAddr());
                 resSuccess.add(body.codParqueadero);
             }
             else{

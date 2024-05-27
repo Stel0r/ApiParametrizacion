@@ -35,7 +35,7 @@ public class SecurityConfig{
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
-        return httpSecurity.csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(request -> request.requestMatchers("/swagger-ui/**","/v3/api-docs/**").permitAll().requestMatchers("/parqueadero/**","reportes/**").hasAuthority("G").anyRequest().authenticated())
+        return httpSecurity.csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(request -> request.requestMatchers("/swagger-ui/**","/v3/api-docs/**").permitAll().requestMatchers("/parqueadero/**","reportes/**").hasAuthority("G").requestMatchers("/administrador/**").hasAnyAuthority("A").anyRequest().authenticated())
         .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).authenticationProvider(authenticationProvider()).addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class).build();
     }
 
