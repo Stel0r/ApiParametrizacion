@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,6 +12,7 @@ import FourParks.Api.Parametrizacion.ApiParametrizacion.Repositorios.AuditoriaRe
 import FourParks.Api.Parametrizacion.ApiParametrizacion.Logica.Auditoria; // Import the Auditoria class
 
 @RestController
+@CrossOrigin
 @RequestMapping("/administrador")
 public class AdminController {
     @Autowired
