@@ -31,16 +31,12 @@ public class AdminController {
         return ResponseEntity.ok().body(auditoriaRepository.findAll());
     }
 
-     @GetMapping("/estadisticas")
-    public ResponseEntity<Map<String,Object>> generarReporteParqueadero(){
+    @GetMapping("/estadisticas")
+    public ResponseEntity<List<Map<String,Object>>> generarReporteCiudad(){
         try {
-            Map<String,Object> res = Map.of();
-            for(Parqueadero p : parqueaderoRepositorio.findAll()){
-                res.put(p.codParqueadero, parqueaderoRepositorio.crearReporteParqueaderoFuturo(p.codParqueadero));
-            }
-            return ResponseEntity.ok().body(res);
+            return ResponseEntity.ok().body(parqueaderoRepositorio.crearReporteParqueaderoFuturo());
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(Map.of("response",e.getMessage()));
+            return ResponseEntity.badRequest().body(List.of(Map.of("response",e.getMessage())));
         }
     }
 }
